@@ -1,17 +1,20 @@
 Ext.define('Mba.ux.Geolocation', {
     extend: 'Ext.Evented',
-
-    requires: ['Ext.util.DelayedTask', 'Mba.ux.Geolocation.view.Map'],
-
+    requires: [
+        'Ext.util.DelayedTask',
+        'Mba.ux.Geolocation.view.Map',
+        'Ext.device.Connection'
+    ],
     singleton: true,
+    mapsCarregado: false,
 
     config: {
-        mapsCarregado: false,
         mapsCarregando: false,
         mapaControllerCarregado: false
     },
 
-    initialize: function() {
+    initialize: function()
+    {
         this.callParent();
         document.addEventListener('resume', Ext.Function.bind(this.verifyMapLoaded, this), false);
         this.setMapaControllerCarregado(true);
@@ -25,14 +28,15 @@ Ext.define('Mba.ux.Geolocation', {
         task.delay(100);
     },
 
-    verifyMapLoaded: function() {
-        if (this.getMapsCarregando() || (this.getMapaControllerCarregado() && !this.getMapsCarregado())) {
+    verifyMapLoaded: function()
+    {
+        if (this.mapsCarregado || (this.getMapaControllerCarregado() && !this.getMapsCarregado())) {
             this.carregarMapa();
         }
     },
 
     carregarMapa: function() {
-        if (this.isConnected()) {
+        if (Ext.device.Connection.isOnline()) {
             if(document.getElementById('scriptMapa')) {
                 return;
             }
@@ -52,20 +56,5 @@ Ext.define('Mba.ux.Geolocation', {
 
         this.mapsCarregado = true;
         //Talvez alguma ação aqui.
-    },
-
-    isConnected: function() {
-        if (navigator.network) {
-            var networkState = navigator.network.connection.type;
-            
-            if (networkState == Connection.UNKNOWN || networkState == Connection.NONE) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
     }
-
 });
