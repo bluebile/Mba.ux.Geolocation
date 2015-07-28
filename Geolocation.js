@@ -31,24 +31,29 @@ Ext.define('Mba.ux.Geolocation', {
     verifyMapLoaded: function()
     {
         if (this.mapsCarregado || (this.getMapaControllerCarregado() && !this.getMapsCarregado())) {
-            this.carregarMapa();
+            this.loadMap();
         }
     },
 
-    carregarMapa: function() {
+    loadMap: function()
+    {
         if (Ext.device.Connection.isOnline()) {
-            if(document.getElementById('scriptMapa')) {
-                return;
-            }
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.id = 'scriptMapa';
-            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&' + 'callback=Mba.ux.Geolocation.googleMapsCarregado';
-            document.body.appendChild(script);
+            return false;
         }
+        if(document.getElementById('scriptMap')) {
+            return true;
+        }
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.id = 'scriptMap';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.Geolocation.mapLoaded';
+        document.body.appendChild(script);
+        return true;
+
     },
 
-    googleMapsCarregado: function() {
+    mapLoaded: function()
+    {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'vendor/ux/Mba.ux.Geolocation/resources/markercluster.js';
