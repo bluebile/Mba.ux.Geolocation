@@ -20,7 +20,7 @@ Ext.define('Mba.ux.Geolocation', {
         this.setMapaControllerCarregado(true);
         var me = this,
             task = Ext.create('Ext.util.DelayedTask', function() {
-                this.carregarMapa();
+                this.loadMap();
             },
             me
         );
