@@ -1,6 +1,5 @@
-Ext.define('Mba.ux.Geolocation.view.Map', {
+Ext.define('Mba.ux.Map', {
     extend: 'Ext.Map',
-
     xtype: 'mba-map',
 
     config: {

@@ -1,11 +1,11 @@
 {
-    "name": "Mba.ux.Geolocation",
+    "name": "Mba.ux.Map",
     "version": "0.0.1",
-    "homepage": "https://github.com/bluebile/Mba.ux.Geolocation",
+    "homepage": "https://github.com/bluebile/Mba.ux.Map",
     "authors": [
         "Bluebile <info@bluebile.com>"
     ],
-    "description": "Plugin para utilização de mapas e geolocation em aplicações Senha Touch.",
+    "description": "Plugin para utilização de mapas em aplicações Senha Touch.",
     "main": [
         "Geolocation.js"
     ],

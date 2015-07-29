@@ -10,7 +10,7 @@ Ext.application({
     requires: [
         ...
         'Mba.ux.Environment.overrides.*',
-        'Mba.ux.Geolocation'
+        'Mba.ux.Map'
         ...
     ],
 
@@ -18,7 +18,7 @@ Ext.application({
         ...
 
         //Variável google ainda não carregou!
-        // Ext.create('Mba.ux.Geolocation.view.Map', {
+        // Ext.create('Mba.ux.Map', {
         //     mapOptions: {
         //         center: new google.maps.LatLng(this.getLatitude(), this.getLongitude()),
         //         zoom: 4,

@@ -1,8 +1,7 @@
-Ext.define('Mba.ux.Geolocation', {
+Ext.define('Mba.ux.MapLoader', {
     extend: 'Ext.Evented',
     requires: [
         'Ext.util.DelayedTask',
-        'Mba.ux.Geolocation.view.Map',
         'Ext.device.Connection'
     ],
     singleton: true,
