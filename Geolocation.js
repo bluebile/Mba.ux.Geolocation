@@ -49,13 +49,13 @@ Ext.define('Mba.ux.Geolocation', {
 
     mapLoaded: function()
     {
+        this.loaded = true;
+
         if (Ext.isArray(this.getScripts())) {
             Ext.each(this.getScripts(), function(value) {
                 Ext.Loader.loadScriptFile(value);
             });
         }
-
-        this.loaded = true;
 
         if (Ext.isFunction(this.getCallbackAfterLoad())) {
             this.getCallbackAfterLoad()();
