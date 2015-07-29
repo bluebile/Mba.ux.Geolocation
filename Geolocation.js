@@ -6,18 +6,17 @@ Ext.define('Mba.ux.Geolocation', {
         'Ext.device.Connection'
     ],
     singleton: true,
-    mapsCarregado: false,
+    loaded: false,
 
     config: {
-        mapsCarregando: false,
-        mapaControllerCarregado: false
+        callbackAfterLoad: null,
+        scripts: []
     },
 
     initialize: function()
     {
         this.callParent();
-        document.addEventListener('resume', Ext.Function.bind(this.verifyMapLoaded, this), false);
-        this.setMapaControllerCarregado(true);
+        document.addEventListener('resume', Ext.Function.bind(this.loadMap, this), false);
         var me = this,
             task = Ext.create('Ext.util.DelayedTask', function() {
                 this.loadMap();
@@ -28,38 +27,38 @@ Ext.define('Mba.ux.Geolocation', {
         task.delay(100);
     },
 
-    verifyMapLoaded: function()
+    isLoaded: function()
     {
-        if (this.mapsCarregado || (this.getMapaControllerCarregado() && !this.getMapsCarregado())) {
-            this.loadMap();
-        }
+        return this.loaded;
     },
 
     loadMap: function()
     {
-        if (Ext.device.Connection.isOnline()) {
+        if (!Ext.device.Connection.isOnline()) {
             return false;
         }
-        if(document.getElementById('scriptMap')) {
+
+        var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.Geolocation.mapLoaded';
+        if (!Ext.Loader.scriptElements[url]) {
+            Ext.Loader.loadScriptFile(url);
             return true;
         }
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.id = 'scriptMap';
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.Geolocation.mapLoaded';
-        document.body.appendChild(script);
-        return true;
 
+        return false;
     },
 
     mapLoaded: function()
     {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'vendor/ux/Mba.ux.Geolocation/resources/markercluster.js';
-        document.body.appendChild(script);
+        if (Ext.isArray(this.getScripts())) {
+            Ext.each(this.getScripts(), function(value) {
+                Ext.Loader.loadScriptFile(value);
+            });
+        }
 
-        this.mapsCarregado = true;
-        //Talvez alguma ação aqui.
+        this.loaded = true;
+
+        if (Ext.isFunction(this.getCallbackAfterLoad())) {
+            this.getCallbackAfterLoad()();
+        }
     }
 });
