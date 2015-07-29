@@ -42,6 +42,7 @@ Ext.define('Mba.ux.MapLoader', {
         if (!Ext.Loader.scriptElements[url]) {
             Ext.Loader.setConfig('disableCaching', false);
             Ext.Loader.loadScriptFile(url, Ext.emptyFn, Ext.emptyFn);
+            Ext.Loader.setConfig('disableCaching', true);
             return true;
         }
 
