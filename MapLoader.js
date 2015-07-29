@@ -18,10 +18,10 @@ Ext.define('Mba.ux.MapLoader', {
         document.addEventListener('resume', Ext.Function.bind(this.loadMap, this), false);
         var me = this,
             task = Ext.create('Ext.util.DelayedTask', function() {
-                this.loadMap();
-            },
-            me
-        );
+                    this.loadMap();
+                },
+                me
+            );
 
         task.delay(100);
     },
@@ -37,8 +37,10 @@ Ext.define('Mba.ux.MapLoader', {
             return false;
         }
 
-        var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.Geolocation.mapLoaded';
+        var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.MapLoader.loaded';
+
         if (!Ext.Loader.scriptElements[url]) {
+            Ext.Loader.setConfig('disableCaching', false);
             Ext.Loader.loadScriptFile(url, Ext.emptyFn, Ext.emptyFn);
             return true;
         }
@@ -46,7 +48,7 @@ Ext.define('Mba.ux.MapLoader', {
         return false;
     },
 
-    mapLoaded: function()
+    loaded: function()
     {
         this.loaded = true;
 
