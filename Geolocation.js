@@ -40,7 +40,7 @@ Ext.define('Mba.ux.Geolocation', {
 
         var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.Geolocation.mapLoaded';
         if (!Ext.Loader.scriptElements[url]) {
-            Ext.Loader.loadScriptFile(url);
+            Ext.Loader.loadScriptFile(url, Ext.emptyFn, Ext.emptyFn);
             return true;
         }
 
@@ -53,7 +53,7 @@ Ext.define('Mba.ux.Geolocation', {
 
         if (Ext.isArray(this.getScripts())) {
             Ext.each(this.getScripts(), function(value) {
-                Ext.Loader.loadScriptFile(value);
+                Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
             });
         }
 
