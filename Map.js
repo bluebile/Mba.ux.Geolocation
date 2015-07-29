@@ -3,8 +3,12 @@ Ext.define('Mba.ux.Map', {
     xtype: 'mba-map',
 
     config: {
-        latitude: -15.127750417479298,
-        longitude: -53.18050174999996,
+        mapOptions: {
+            center: {
+                latitude: -15.127750417479298,
+                longitude: -53.18050174999996
+            }
+        },
         markerMe: 'resources/img/map-marker-me.gif',
         markerPosicaoAtual: null,
         paintMapMarkers: Ext.emptyFn,
