@@ -1,5 +1,6 @@
 Ext.define('Mba.ux.MapLoader', {
     extend: 'Ext.Evented',
+    alternateClassName: 'MapLoader',
     requires: [
         'Ext.util.DelayedTask',
         'Ext.device.Connection'
