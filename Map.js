@@ -1,6 +1,6 @@
 Ext.define('Mba.ux.Map', {
     extend: 'Ext.Map',
-    xtype: 'mba-map',
+    xtype: 'mba_map',
 
     config: {
         mapOptions: {
