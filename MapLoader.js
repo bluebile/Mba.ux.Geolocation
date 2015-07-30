@@ -40,9 +40,10 @@ Ext.define('Mba.ux.MapLoader', {
         var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.MapLoader.loaded';
 
         if (!Ext.Loader.scriptElements[url]) {
+            var disableCaching = Ext.Loader.setConfig('disableCaching');
             Ext.Loader.setConfig('disableCaching', false);
             Ext.Loader.loadScriptFile(url, Ext.emptyFn, Ext.emptyFn);
-            Ext.Loader.setConfig('disableCaching', true);
+            Ext.Loader.setConfig('disableCaching', disableCaching);
             return true;
         }
 
