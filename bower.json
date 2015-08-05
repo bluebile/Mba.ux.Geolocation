@@ -30,6 +30,7 @@
         "test",
         "tests"
     ],
+    "requires": "Mba.ux.MapLoader",
     "cordova" : {
         "id_or_url_plugin": [ "org.apache.cordova.geolocation@0.3.12", "org.apache.cordova.network-information@0.2.15" ]
     }
