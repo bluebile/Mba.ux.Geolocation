@@ -30,6 +30,9 @@ Ext.application({
         //     }
         // });
 
+        //Para Adicionar scripts adicionais ao plugin Map após o carregamento
+        MapLoader.setScripts(['caminho-do-arquivo.js']);
+
         ...
 
  	}
