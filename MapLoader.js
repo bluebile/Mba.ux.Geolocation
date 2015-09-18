@@ -39,7 +39,7 @@ Ext.define('Mba.ux.MapLoader', {
         }
 
         var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&' +
-            'language=pt_BR&callback=Mba.ux.MapLoader.loaded';
+                  'language=pt_BR&callback=Mba.ux.MapLoader.loaded';
 
         if (!Ext.Loader.scriptElements[url]) {
             var disableCaching = Ext.Loader.setConfig('disableCaching');
@@ -65,6 +65,22 @@ Ext.define('Mba.ux.MapLoader', {
         if (!this._loaded) {
             throw 'Não é permitido atribuir scripts sem carregar o mapa';
         }
+
+        Ext.each(scripts, function(value) {
+            Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
+        });
+    },
+
+    updateCallbackAfterLoad: function(callback)
+    {
+        if (!Ext.isFunction(callback)) {
+            return;
+        }
+
+        if (!this._loaded) {
+            throw 'Não é permitido atribuir scripts sem carregar o mapa';
+        }
+
 
         Ext.each(scripts, function(value) {
             Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);

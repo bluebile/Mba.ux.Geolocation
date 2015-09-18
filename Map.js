@@ -26,7 +26,7 @@ Ext.define('Mba.ux.Map', {
         // },
 
         listeners: {
-            maprender: function(comp, map) {
+            maprender: function(comp) {
             	var me = this;
             	// Centralizando o mapa.
                 // comp.getMap().panTo(new google.maps.LatLng(-15.127750417479298, -53.18050174999996));
@@ -51,7 +51,7 @@ Ext.define('Mba.ux.Map', {
     		                    map: comp.getMap()
     	                	})
     	                );
-    	            }, function(error) {
+    	            }, function() {
     	                Ext.Msg.alert(null, 'Não foi possível recuperar a sua posição atual.', Ext.emptyFn);
     	            });
     	        }
