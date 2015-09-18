@@ -6,7 +6,7 @@ Ext.define('Mba.ux.MapLoader', {
         'Ext.device.Connection'
     ],
     singleton: true,
-    loaded: false,
+    _loaded: false,
 
     config: {
         callbackAfterLoad: null,
@@ -29,7 +29,7 @@ Ext.define('Mba.ux.MapLoader', {
 
     isLoaded: function()
     {
-        return this.loaded;
+        return this._loaded;
     },
 
     loadMap: function()
@@ -38,7 +38,8 @@ Ext.define('Mba.ux.MapLoader', {
             return false;
         }
 
-        var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&language=pt_BR&callback=Mba.ux.MapLoader.loaded';
+        var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&' +
+            'language=pt_BR&callback=Mba.ux.MapLoader.loaded';
 
         if (!Ext.Loader.scriptElements[url]) {
             var disableCaching = Ext.Loader.setConfig('disableCaching');
@@ -51,18 +52,40 @@ Ext.define('Mba.ux.MapLoader', {
         return false;
     },
 
+    updateScripts: function(scripts)
+    {
+        if (!Ext.isArray(scripts)) {
+            return;
+        }
+
+        if (scripts.length === 0) {
+            return;
+        }
+
+        if (!this._loaded) {
+            throw 'Não é permitido atribuir scripts sem carregar o mapa';
+        }
+
+        Ext.each(scripts, function(value) {
+            Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
+        });
+    },
+
+    updateCallbackAfterLoad: function(callback)
+    {
+        if (!Ext.isFunction(callback)) {
+            return;
+        }
+
+        if (!this._loaded) {
+            throw 'Não é permitido atribuir scripts sem carregar o mapa';
+        }
+
+        callback();
+    },
+
     loaded: function()
     {
-        this.loaded = true;
-
-        if (Ext.isArray(this.getScripts())) {
-            Ext.each(this.getScripts(), function(value) {
-                Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
-            });
-        }
-
-        if (Ext.isFunction(this.getCallbackAfterLoad())) {
-            this.getCallbackAfterLoad()();
-        }
+        this._loaded = true;
     }
 });

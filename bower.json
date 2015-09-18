@@ -24,7 +24,7 @@
         "demo",
         "ux",
         "**/*.*~",
-        "Gruntfile.js",
+        "gulpfile.js",
         "bower.json",
         "package.json",
         "test",
