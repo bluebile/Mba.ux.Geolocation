@@ -7,24 +7,13 @@ Ext.define('Mba.ux.MapLoader', {
     ],
     singleton: true,
     _loaded: false,
-
-    config: {
-        callbackAfterLoad: null,
-        scripts: []
-    },
+    scripts: [],
+    callbackAfterLoad: Ext.emptyFn,
 
     initialize: function()
     {
         this.callParent();
         document.addEventListener('resume', Ext.Function.bind(this.loadMap, this), false);
-        var me = this,
-            task = Ext.create('Ext.util.DelayedTask', function() {
-                    this.loadMap();
-                },
-                me
-            );
-
-        task.delay(100);
     },
 
     isLoaded: function()
@@ -32,10 +21,44 @@ Ext.define('Mba.ux.MapLoader', {
         return this._loaded;
     },
 
+    setCallbackAfterLoad: function(callback)
+    {
+        if (!Ext.isFunction(callback)) {
+            throw 'Necessário function';
+        }
+        this.callbackAfterLoad = callback;
+    },
+
+    setScripts: function(scripts)
+    {
+        if (!Ext.isArray(scripts)) {
+            throw 'Necessário array';
+        }
+
+        this.scripts = scripts;
+
+        if (this.isLoaded()) {
+            this.includeScripts(this.scripts);
+        }
+    },
+
+    addScript: function(script)
+    {
+        this.scripts.push(script);
+
+        if (this.isLoaded()) {
+            this.includeScripts([script]);
+        }
+    },
+
     loadMap: function()
     {
         if (!Ext.device.Connection.isOnline()) {
             return false;
+        }
+
+        if (this.isLoaded()) {
+            return;
         }
 
         var url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&' +
@@ -52,56 +75,19 @@ Ext.define('Mba.ux.MapLoader', {
         return false;
     },
 
-    updateScripts: function(scripts)
-    {
-        if (!Ext.isArray(scripts)) {
-            return;
-        }
-
-        if (scripts.length === 0) {
-            return;
-        }
-
-        if (!this._loaded) {
-            throw 'Não é permitido atribuir scripts sem carregar o mapa';
-        }
-
-        Ext.each(scripts, function(value) {
-            Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
-        });
-    },
-
-    updateCallbackAfterLoad: function(callback)
-    {
-        if (!Ext.isFunction(callback)) {
-            return;
-        }
-
-        if (!this._loaded) {
-            throw 'Não é permitido atribuir scripts sem carregar o mapa';
-        }
-
-
-        Ext.each(scripts, function(value) {
-            Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
-        });
-    },
-
-    updateCallbackAfterLoad: function(callback)
-    {
-        if (!Ext.isFunction(callback)) {
-            return;
-        }
-
-        if (!this._loaded) {
-            throw 'Não é permitido atribuir scripts sem carregar o mapa';
-        }
-
-        callback();
-    },
-
     loaded: function()
     {
         this._loaded = true;
+
+        this.includeScripts(this.scripts);
+
+        this.callbackAfterLoad();
+    },
+
+    includeScripts: function(scripts)
+    {
+        Ext.each(scripts, function(value) {
+            Ext.Loader.loadScriptFile(value, Ext.emptyFn, Ext.emptyFn);
+        });
     }
 });
