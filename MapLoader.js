@@ -27,6 +27,10 @@ Ext.define('Mba.ux.MapLoader', {
             throw 'Necessário function';
         }
         this.callbackAfterLoad = callback;
+
+        if (this.isLoaded()) {
+            this.callbackAfterLoad();
+        }
     },
 
     setScripts: function(scripts)
